@@ -1,11 +1,13 @@
 package com.screenplay.dto.response;
 
+import java.time.Instant;
+import java.util.List;
+
+import com.screenplay.entity.Video;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
-import java.time.Instant;
 
 @Data
 @AllArgsConstructor
@@ -40,8 +42,7 @@ public class VideoResponse {
             boolean published,
             List<String> categories,
             Instant createdAt,
-            Instant updatedAt
-    ) {
+            Instant updatedAt) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -54,6 +55,28 @@ public class VideoResponse {
         this.categories = categories;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+    }
+
+    public static VideoResponse fromEntity(Video video) {
+        VideoResponse response = new VideoResponse(
+                video.getId(),
+                video.getTitle(),
+                video.getDescription(),
+                video.getYear(),
+                video.getRating(),
+                video.getDuration(),
+                video.getSrc(),
+                video.getPoster(),
+                video.isPublished(),
+                video.getCategories(),
+                video.getCreatedAt(),
+                video.getUpdatedAt()
+        );
+
+        if(video.getIsInWatchlist() != null) {
+            response. setIsInWatchlist(video.getIsInWatchlist());
+        }
+        return response;
     }
 
 }
