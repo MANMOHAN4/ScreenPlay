@@ -36,7 +36,7 @@ public class EmailServiceImpl implements EmailService {
 
             message.setFrom(fromEmail);
             message.setTo(toEmail);
-            message.setSubject("Netflix Clone - Verify Your Email");
+            message.setSubject("ScreenPLAY - Verify Your Email");
 
             String verificationLink = frontendUrl + "/verify-email?token=" + token;
 
@@ -91,7 +91,7 @@ public class EmailServiceImpl implements EmailService {
                     +
                     "Best regards,\n"
                     +
-                    "Netflix Clone Team";
+                    "ScreenPLAY Team";
 
             message.setText(emailBody);
 
