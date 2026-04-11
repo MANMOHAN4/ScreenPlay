@@ -21,7 +21,7 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender mailSender;
 
     // Frontend URL (Angular app)
-    @Value("${app.frontend.url:http://localhost:4200}")
+    @Value("${app.frontend.url:http://localhost:5173}")
     private String frontendUrl;
 
     // Sender email (configured in application.properties)
@@ -36,7 +36,7 @@ public class EmailServiceImpl implements EmailService {
 
             message.setFrom(fromEmail);
             message.setTo(toEmail);
-            message.setSubject("Netflix Clone - Verify Your Email");
+            message.setSubject("ScreenPLAY - Verify Your Email");
 
             String verificationLink = frontendUrl + "/verify-email?token=" + token;
 
@@ -91,7 +91,7 @@ public class EmailServiceImpl implements EmailService {
                     +
                     "Best regards,\n"
                     +
-                    "Netflix Clone Team";
+                    "ScreenPLAY Team";
 
             message.setText(emailBody);
 
