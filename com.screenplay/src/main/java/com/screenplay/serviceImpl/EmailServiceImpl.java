@@ -21,7 +21,7 @@ public class EmailServiceImpl implements EmailService {
     private JavaMailSender mailSender;
 
     // Frontend URL (Angular app)
-    @Value("${app.frontend.url:http://localhost:4200}")
+    @Value("${app.frontend.url:http://localhost:5173}")
     private String frontendUrl;
 
     // Sender email (configured in application.properties)
