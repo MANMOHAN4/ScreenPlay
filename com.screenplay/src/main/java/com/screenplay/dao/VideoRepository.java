@@ -12,7 +12,7 @@ import com.screenplay.entity.Video;
 
 public interface VideoRepository extends JpaRepository<Video, Long> {
 
-        @Query("SELECT v FROM Video v WHERE"
+        @Query("SELECT v FROM Video v WHERE "
                         + "LOWER(v.title) LIKE LOWER(CONCAT('%', :search, '%')) OR "
                         + "LOWER(v.description) LIKE LOWER(CONCAT('%', :search, '%'))")
 
