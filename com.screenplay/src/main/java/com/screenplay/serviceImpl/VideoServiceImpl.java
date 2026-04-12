@@ -37,8 +37,8 @@ public class VideoServiceImpl implements VideoService {
         video.setYear(videoRequest.getYear());
         video.setRating(videoRequest.getRating());
         video.setDuration(videoRequest.getDuration());
-        video.setSrcUuid(videoRequest.getSrc());
-        video.setPosterUuid(videoRequest.getPoster());
+        video.setSrcUuid(extractUuid(videoRequest.getSrc()));
+        video.setPosterUuid(extractUuid(videoRequest.getPoster()));
         video.setPublished(videoRequest.isPublished());
         video.setCategories(videoRequest.getCategories() != null ? videoRequest.getCategories() : List.of());
 
@@ -163,4 +163,9 @@ public class VideoServiceImpl implements VideoService {
                 .map(VideoResponse::fromEntity)
                 .toList();
     }
+
+    private String extractUuid(String url) {
+        return url.substring(url.lastIndexOf("/") + 1);
+    }
+
 }
