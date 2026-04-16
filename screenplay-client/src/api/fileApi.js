@@ -19,9 +19,14 @@ export const fileApi = {
   },
 };
 
-// Backend reads ?token= for <img> and <video> tags (JwtAuthenticationFilter)
-export const imageUrl = (uuid, token) =>
-  uuid && token ? `${BASE}/api/files/image/${uuid}?token=${token}` : null;
+export const imageUrl = (uuid, token) => {
+  if (!uuid || !token) return null;
+  if (uuid.startsWith("http")) return uuid; // ← already a full URL, use as-is
+  return `${BASE}/api/files/image/${uuid}?token=${token}`;
+};
 
-export const videoUrl = (uuid, token) =>
-  uuid && token ? `${BASE}/api/files/video/${uuid}?token=${token}` : null;
+export const videoUrl = (uuid, token) => {
+  if (!uuid || !token) return null;
+  if (uuid.startsWith("http")) return uuid; // ← already a full URL, use as-is
+  return `${BASE}/api/files/video/${uuid}?token=${token}`;
+};
