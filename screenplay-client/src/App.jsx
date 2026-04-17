@@ -6,12 +6,16 @@ import {
   useLocation,
 } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { AuthProvider, useAuth } from "./context/AuthContext"; // ← AuthProvider added
+import { AuthProvider, useAuth } from "./context/AuthContext";
 
 // ── Public Pages ──────────────────────────────────────────────────
 import LandingPage from "./pages/public/LandingPage";
 import LoginPage from "./pages/public/LoginPage";
 import SignupPage from "./pages/public/SignupPage";
+import VerifyEmailPage from "./pages/public/VerifyEmailPage";
+import ForgotPasswordPage from "./pages/public/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/public/ResetPasswordPage";
+import ResendVerificationPage from "./pages/public/ResendVerificationPage";
 
 // ── User Pages ────────────────────────────────────────────────────
 import BrowsePage from "./pages/user/BrowsePage";
@@ -46,9 +50,8 @@ function AuthLoader() {
 }
 
 // ─────────────────────────────────────────────────────────────────
-// Route Guards  — all safe: mounted inside <AuthProvider>
+// Route Guards
 // ─────────────────────────────────────────────────────────────────
-
 function RequireAuth({ children }) {
   const { token, loading } = useAuth();
   const location = useLocation();
@@ -68,6 +71,7 @@ function RequireAdmin({ children }) {
   return children;
 }
 
+// Guests only — logged-in users are redirected away
 function RequireGuest({ children }) {
   const { token, user, loading } = useAuth();
   if (loading) return <AuthLoader />;
@@ -158,7 +162,7 @@ const toastConfig = {
 function AppRoutes() {
   return (
     <Routes>
-      {/* Public */}
+      {/* ── Public: guests only (logged-in users redirected away) ── */}
       <Route
         path="/"
         element={
@@ -183,8 +187,23 @@ function AppRoutes() {
           </RequireGuest>
         }
       />
+      <Route
+        path="/forgot-password"
+        element={
+          <RequireGuest>
+            <ForgotPasswordPage />
+          </RequireGuest>
+        }
+      />
 
-      {/* User */}
+      {/* ── Public: open to everyone (token links from email) ──────
+           These must NOT be wrapped in RequireGuest — a logged-in
+           user could also click a verify/reset link from their email. */}
+      <Route path="/verify-email" element={<VerifyEmailPage />} />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/resend-verification" element={<ResendVerificationPage />} />
+
+      {/* ── User ───────────────────────────────────────────────── */}
       <Route
         path="/browse"
         element={
@@ -210,7 +229,7 @@ function AppRoutes() {
         }
       />
 
-      {/* Admin */}
+      {/* ── Admin ──────────────────────────────────────────────── */}
       <Route
         path="/admin"
         element={
@@ -244,7 +263,7 @@ function AppRoutes() {
         }
       />
 
-      {/* Fallbacks */}
+      {/* ── Fallbacks ──────────────────────────────────────────── */}
       <Route path="/admin/*" element={<Navigate to="/admin" replace />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
@@ -258,8 +277,6 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        {" "}
-        {/* ← wraps everything: guards can now safely call useAuth() */}
         <Toaster {...toastConfig} />
         <AppRoutes />
       </AuthProvider>
