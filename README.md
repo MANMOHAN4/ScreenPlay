@@ -101,7 +101,7 @@ The platform supports two roles, `USER` and `ADMIN`. Access to every protected r
 
 ## System Architecture
 
-<img src="Docs/System_Architecture.png" alt="Project Architecture">
+<img src="Docs/System Architecture.svg" alt="Project Architecture">
 
 The backend follows a layered architecture: `controller` (HTTP layer), `service` and `serviceImpl` (business logic), `dao` (repositories), `entity` (JPA models), `dto` (request and response contracts), `security` (JWT filter and utility), `config` (security and CORS), `exception` (custom exceptions and global handler), and `util` (file, pagination, and service helpers).
 
